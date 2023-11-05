@@ -19,4 +19,18 @@ export class ListaCafesComponent implements OnInit {
       .subscribe((cafes) => (this.cafes = cafes));
   }
 
+  get totalCafeOrigen(): number {
+    return this.obtenerCafesPorTipo('Café de Origen').length;
+  }
+
+  get totalCafeBlend(): number {
+    return this.obtenerCafesPorTipo('Blend').length;
+  }
+
+
+  private obtenerCafesPorTipo(tipo: string) {
+    return this.cafes.filter(cafe => cafe.tipo === tipo);
+  }
+
+
 }

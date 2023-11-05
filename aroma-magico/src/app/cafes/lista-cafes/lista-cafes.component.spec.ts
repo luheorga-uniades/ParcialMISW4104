@@ -4,6 +4,8 @@ import { ListaCafesComponent } from './lista-cafes.component';
 import { Cafe } from '../cafe';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { CafeService } from '../cafe.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ListaCafesComponent', () => {
   let component: ListaCafesComponent;
@@ -11,6 +13,8 @@ describe('ListaCafesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      providers: [CafeService],
+      imports:[HttpClientTestingModule],
       declarations: [ListaCafesComponent]
     });
     fixture = TestBed.createComponent(ListaCafesComponent);
@@ -44,7 +48,7 @@ describe('ListaCafesComponent', () => {
 
     const listaCafesElement: DebugElement = fixture.debugElement;
 
-    const fila:HTMLElement = listaCafesElement.query(By.css('tbody tr')).nativeElement;
+    const fila: HTMLElement = listaCafesElement.query(By.css('tbody tr')).nativeElement;
 
     const idElement = fila.querySelector('th[name="id"]');
     const nombreElement = fila.querySelector('td[name="nombre"]');
@@ -57,9 +61,23 @@ describe('ListaCafesComponent', () => {
     expect(regionElement?.textContent).toEqual(cafe.region);
   });
 
-  const crearCafe = (): Cafe => ({
+  it('debe mostrar los totales por tipo', () => {
+    component.cafes = [crearCafe("Blend"), crearCafe("Café de Origen"), crearCafe("Blend")];
+
+    fixture.detectChanges();
+
+    const listaCafesElement: DebugElement = fixture.debugElement;
+
+    const totalCafeBlend = listaCafesElement.query(By.css('span[name="totalCafeBlend"]'));
+    const totalCafeOrigen = listaCafesElement.query(By.css('span[name="totalCafeOrigen"]'));
+
+    expect(totalCafeBlend.nativeElement.textContent).toEqual('2');
+    expect(totalCafeOrigen.nativeElement.textContent).toEqual('1');
+  });
+
+  const crearCafe = (tipo?: string): Cafe => ({
     id: faker.number.int(),
-    tipo: faker.lorem.text(),
+    tipo: tipo ?? faker.lorem.text(),
     sabor: faker.lorem.text(),
     altura: faker.number.int(),
     nombre: faker.person.firstName(),
