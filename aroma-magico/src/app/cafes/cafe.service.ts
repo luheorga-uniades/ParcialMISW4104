@@ -11,7 +11,7 @@ export class CafeService {
 
   private apiUrl: string = environment.apiUrl;
   constructor(private http: HttpClient) { }
-  obtenerActores(): Observable<Cafe[]> {
+  obtenerCafes(): Observable<Cafe[]> {
     return this.http.get<Cafe[]>(this.apiUrl);
   }
 }
