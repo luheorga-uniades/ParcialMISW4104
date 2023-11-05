@@ -1,0 +1,18 @@
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Tipo</th>
+      <th scope="col">Región</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let cafe of cafes">
+      <th scope="row" name="id">{{cafe.id}}</th>
+      <td name="nombre">{{cafe.nombre}}</td>
+      <td name="tipo">{{cafe.tipo}}</td>
+      <td name="region">{{cafe.region}}</td>
+    </tr>
+  </tbody>
+</table>
